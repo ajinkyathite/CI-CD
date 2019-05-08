@@ -17,19 +17,19 @@ Once the Jenkins image has been built, we create an instance from that image. To
 
     sudo cat /tmp/jenkins/secrets/initialAdminPassword
     
-####1. Enable automatic builds
+#### 1. Enable automatic builds
 On the landing page, on the left hand side, you will see a menu. Under that menu, select Manage Jenkins, then Configure System. On the new page, find the Github section and click on Advanced. You should see a checkbox, click on it. The input field should be auto-populated with a URL.
 That url is a webhook which should be added to the github repository’s Settings as a service, under Jenkins (Github plugin), in the Integrations and Services section. This is to enable automatic builds on every commit.
 For this to work, make sure you have set a domain name. for some reason the webhook does not work with an IP in the URL. If you don’t have a domain, you will have to manually trigger the builds.
 
-####2. Managing secrets
+#### 2. Managing secrets
 Head back over to the menu on your left and click on Manage Jenkins again. Close to the bottom of that menu you will see a Credentials option, click on it, then under the Stores scoped to Jenkins click on (global). Here is where we save all the values we do not want to expose, also know as SECRETS. Since we are working with Docker we will need to login to it during the deployment pipeline so we add the docker password here as a secret text. It is one of the available options under kind after you click on the Add credentials button. 
 For our pipeline, this is the only secret we have, however there will be cases where you have several variables to hide and this is where you add them. Use IDs that match the variable names you have in place of where the values should be.
 
-####3. Add the project management tool
+#### 3. Add the project management tool
 Back to Manage Jenkins, under Global Tool Configuration , scroll down till you find the section with Maven. Click on the Maven Installation button and enter a name which you will use to reference the version of Maven to use, I used M3. The reason for this configuration is because Maven is the project management tool which was used by our microservice software developer.
 
-####4. Install necessary plugins
+#### 4. Install necessary plugins
 Back to `Manage Jenkins`, we click on the `Manage Plugins` section and under available, we install the [Docker](https://wiki.jenkins.io/display/JENKINS/Docker+Plugin) and [Blue Ocean](https://wiki.jenkins.io/display/JENKINS/Blue+Ocean+Plugin) plugins. Docker for Jenkins to be able to use a Docker host to dynamically provision build agents, run a single build, then tear-down agent while Blue Ocean is a more user friendly interface for working with Jenkins Pipelines. You should restart Jenkins once the installs are done.
 
 Setting up the pipeline as code
